@@ -1,0 +1,25 @@
+services:
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
+    volumes:
+      - mysql:/var/lib/mysql
+    networks:
+      - mysql
+    secrets:
+      - mysql_root_password
+
+volumes:
+  mysql:
+    external: true
+
+networks:
+  mysql:
+    external: true
+
+secrets:
+  mysql_root_password:
+    file: /home/philj/secrets/mysql.root.password # put admin password in this file

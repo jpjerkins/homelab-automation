@@ -1,0 +1,38 @@
+services:
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:main
+    ports:
+      - "8083:8080"
+    volumes:
+      - open-webui:/app/backend/data
+    networks:
+      - open-webui
+    environment:
+      - WEBUI_URL=https://oi.jerkins.net
+      - ENABLE_OAUTH_SIGNUP=True
+      - ENABLE_LOGIN_FORM=False
+      - OAUTH_CLIENT_ID=${OPENWEBUI_OAUTH_CLIENT_ID}
+      - OAUTH_CLIENT_SECRET=${OPENWEBUI_OAUTH_CLIENT_SECRET}
+      - OPENID_PROVIDER_URL=https://cloud.jerkins.net/.well-known/openid-configuration
+      - OAUTH_PROVIDER_NAME=Jerkins Cloud
+      - OAUTH_SCOPES=openid email profile
+      - OPENID_REDIRECT_URI=https://oi.jerkins.net/oauth/oidc/callback
+      - ENABLE_OAUTH_PERSISTENT_CONFIG=false
+      - WEBUI_AUTH_SIGNOUT_REDIRECT_URL=https://oi.jerkins.net/
+    secrets:
+      - oauth_client_id
+      - oauth_client_secret
+
+volumes:
+  open-webui:
+    external: true
+
+networks:
+  open-webui:
+    external: true
+
+secrets:
+  oauth_client_id:
+    file: /var/lib/docker/secrets/openwebui.oauth.client_id
+  oauth_client_secret:
+    file: /var/lib/docker/secrets/openwebui.oauth.client_secret

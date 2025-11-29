@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    restart: always
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n-data:/home/node/.n8n
+    environment:
+      - TZ=America/Chicago # e.g., Europe/London
+      - GENERIC_TIMEZONE=America/Chicago
+      # Add other environment variables as needed, e.g., for secure cookies or webhook URLs
+      - DB_SQLITE_POOL_SIZE=4
+      - N8N_EDITOR_BASE_URL=https://n8n.thejerkins.duckdns.org
+      - N8N_ENCRYPTION_KEY_FILE=/run/secrets/n8n_encryption_key
+      - WEBHOOK_URL=https://n8n.thejerkins.duckdns.org/
+      - N8N_PROXY_HOPS=1
+    networks:
+      - n8n
+    secrets:
+      - n8n_encryption_key
+
+networks:
+  n8n:
+    external: true
+
+volumes:
+  n8n-data:
+    external: true
+
+secrets:
+  n8n_encryption_key:
+    file: /var/lib/docker/secrets/n8n.encryption_key

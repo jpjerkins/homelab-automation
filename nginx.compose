@@ -1,0 +1,39 @@
+version: '1.0'
+services:
+  app:
+    image: 'docker.io/jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - nginx-data:/data
+      - nginx-letsencrypt:/etc/letsencrypt
+    networks:
+      - n8n
+      - nextcloud
+      - ghost-phil
+      - ghost-home
+      - portainer-shared
+      - open-webui
+
+volumes:
+  nginx-data:
+    external: true
+  nginx-letsencrypt:
+    external: true
+
+networks:
+  n8n:
+    external: true
+  nextcloud:
+    external: true
+  ghost-phil:
+    external: true
+  ghost-home:
+    external: true
+  portainer-shared:
+    external: true
+  open-webui:
+    external: true
