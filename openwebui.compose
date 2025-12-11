@@ -19,9 +19,6 @@ services:
       - OPENID_REDIRECT_URI=https://oi.jerkins.net/oauth/oidc/callback
       - ENABLE_OAUTH_PERSISTENT_CONFIG=false
       - WEBUI_AUTH_SIGNOUT_REDIRECT_URL=https://oi.jerkins.net/
-    secrets:
-      - oauth_client_id
-      - oauth_client_secret
 
 volumes:
   open-webui:
@@ -30,9 +27,3 @@ volumes:
 networks:
   open-webui:
     external: true
-
-secrets:
-  oauth_client_id:
-    file: /var/lib/docker/secrets/openwebui.oauth.client_id
-  oauth_client_secret:
-    file: /var/lib/docker/secrets/openwebui.oauth.client_secret
