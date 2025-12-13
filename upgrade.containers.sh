@@ -14,3 +14,6 @@ docker compose -f nginx.compose pull
 docker compose -f openwebui.compose pull
 
 ./restart.containers.sh
+
+docker image prune
+
