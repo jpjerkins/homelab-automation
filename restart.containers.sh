@@ -5,7 +5,6 @@ export OPENWEBUI_OAUTH_CLIENT_SECRET=$(cat ../secrets/openwebui.oauth.client_sec
 export AWS_SES_SMTP_USER_USERNAME=$(cat ../secrets/aws.ses.smtp_user.username)
 export AWS_SES_SMTP_USER_PASSWORD=$(cat ../secrets/aws.ses.smtp_user.password)
 
-docker compose -f jerkins.net.compose -p home up -d
 docker compose -f mysql.compose -p mysql up -d
 docker compose -f n8n.compose -p n8n up -d
 docker compose -f nextcloud.compose -p nextcloud up -d
