@@ -1,12 +1,10 @@
 services:
   web:
-    # Build configuration
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
-
     # Container name
     container_name: jerkins-website
+
+    # Never check for newer images online - they're not out there
+    pull_policy: never
 
     # Port mapping (host:container)
     ports:
@@ -20,6 +18,7 @@ services:
 
     # Environment variables (if needed in the future)
     environment:
+      - CONTENT_FOLDER=content
       - NODE_ENV=production
 
     # Health check
@@ -30,7 +29,15 @@ services:
       retries: 3
       start_period: 40s
 
+    # Networks
+    networks:
+    - ghost-home
+
     # Labels for better organization
     labels:
       - "com.jerkins.description=Jerkins Family Website"
       - "com.jerkins.version=1.0"
+
+networks:
+  ghost-home:
+    external: true
