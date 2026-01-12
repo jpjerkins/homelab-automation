@@ -1,0 +1,44 @@
+services:
+  web:
+    # Container name
+    container_name: jerkins-phil-container
+
+    # Don't check for newer images online - they're not out there
+    pull_policy: never
+
+    # Port mapping (host:container)
+    ports:
+      - "8085:80"
+
+    # Restart policy
+    restart: unless-stopped
+
+    # Image name with date tag
+    image: jerkins-phil-website:latest
+
+    # Environment variables (if needed in the future)
+    environment:
+      - CONTENT_FOLDER=content-phil
+      - NODE_ENV=production
+
+    # Networks
+    networks:
+    - ghost-phil
+
+    # Health check
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+    # Labels for better organization
+    labels:
+      - "com.jerkins.description=Phil Jerkins Personal Blog"
+      - "com.jerkins.version=1.0"
+      - "com.jerkins.content=phil"
+
+networks:
+  ghost-phil:
+    external: true
